@@ -1,0 +1,24 @@
+## My Home Country: The Netherlands
+
+### May 3, 2018
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(leaflet)
+library(raster)
+nld <- getData("GADM", country = "NLD", level = 2)
+nld$randomData <- rnorm(n = nrow(nld), 150, 30)
+pal <- colorQuantile("viridis", NULL, n = 5)
+m <- leaflet() %>%
+    addProviderTiles("CartoDB.Positron") %>%
+    setView(5.12921766,
+            52.10396263,
+            zoom = 4) %>%
+    addPolygons(
+        data = nld,
+        fillColor = ~ pal(randomData),
+        fillOpacity = 0.4,
+        weight = 2,
+        color = "white"
+    )
+m %>% fitBounds(5, 51, 6, 53)
+```
